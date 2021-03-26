@@ -1,3 +1,11 @@
+void print_population(int step, Chromo *pop_list[]) {
+	printf("*** %d ***\n", step);
+	for (int i = 0; i < pop_size; i++) {
+		Chromo *chromo = pop_list[i];
+		printf("%d. %llu\n", i, chromo->rating);
+	}
+}
+
 void init_gene(Triangle *t, int w, int h) {
 	t->x0 = rnd(w);
 	t->y0 = rnd(h);
@@ -48,37 +56,37 @@ void mutate_chromo(Chromo *chromo, int shift, int color_shift, int w, int h) {
 	for (int i = 0; i < chromo_size; i++) {
 		Triangle *t = &chromo->genes[i];
 		if (rnd(1000) < MT) {
-			t->x0 += rnds(shift);
+			t->x0 += rnds(w/2);
 			if (t->x0 >= w || t->x0 < 0) {
 				t->x0 = rnd(w);
 			}
 		}
 		if (rnd(1000) < MT) {
-			t->y0 += rnds(shift);
+			t->y0 += rnds(h/10);
 			if (t->y0 >= h || t->y0 < 0) {
 				t->y0 = rnd(h);
 			}
 		}
 		if (rnd(1000) < MT) {
-			t->x1 += rnds(shift);
+			t->x1 += rnds(w/2);
 			if (t->x1 >= w || t->x1 < 0) {
 				t->x1 = rnd(w);
 			}
 		}
 		if (rnd(1000) < MT) {
-			t->y1 += rnds(shift);
+			t->y1 += rnds(h/2);
 			if (t->y1 >= h || t->y1 < 0) {
 				t->y1 = rnd(h);
 			}
 		}
 		if (rnd(1000) < MT) {
-			t->x2 += rnds(shift);
+			t->x2 += rnds(w/2);
 			if (t->x2 >= w || t->x2< 0) {
 				t->x2 = rnd(w);
 			}
 		}
 		if (rnd(1000) < MT) {
-			t->y2 += rnds(shift);
+			t->y2 += rnds(h/2);
 			if (t->y2 >= h || t->y2 < 0) {
 				t->y2 = rnd(h);
 			}
@@ -103,12 +111,14 @@ void mutate_chromo(Chromo *chromo, int shift, int color_shift, int w, int h) {
 	}
 }
 
-unsigned long calc_rating(SDL_Surface *chromoSurf, SDL_Surface *imgSurf) {
+unsigned long long calc_rating(SDL_Surface *chromoSurf, SDL_Surface *imgSurf) {
 	unsigned char *chromo_pixels = (unsigned char *) chromoSurf->pixels;
 	unsigned char *img_pixels = (unsigned char *) imgSurf->pixels;
-	unsigned long long diff = 0;
 	unsigned char *chromo_offset;
 	unsigned char *img_offset;
+
+	unsigned long long diff = 0;
+
 	for (int y = 0; y < chromoSurf->h; y++) {
 		chromo_offset = chromo_pixels;
 		img_offset = img_pixels;
@@ -123,6 +133,7 @@ unsigned long calc_rating(SDL_Surface *chromoSurf, SDL_Surface *imgSurf) {
 		chromo_pixels += chromoSurf->pitch;
 		img_pixels += imgSurf->pitch;
 	}
+
 	return diff;
 }
 

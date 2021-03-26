@@ -9,7 +9,7 @@ typedef struct {
 
 typedef struct {
 	Triangle genes[MAX_CHROMO_SIZE];
-	unsigned long rating;
+	unsigned long long rating;
 } Chromo;
 
 int rnd(int range) {

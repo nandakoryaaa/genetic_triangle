@@ -90,6 +90,7 @@ int main(int argc, char* argv[]) {
 	printf("rmask: %d, gmask: %d, bmask: %d\n", format->Rmask, format->Gmask, format->Bmask);
 	printf("w: %d, h: %d, pitch: %d\n", imgSurface->w, imgSurface->h, imgSurface->pitch);
 	printf("64-bit integer size: %d\n", sizeof(unsigned long long));
+	printf("test printf llu: %llu\n", 0xffffffffffffffff);
 	srand(time(0));
 
 	SDL_Event event;
@@ -99,6 +100,7 @@ int main(int argc, char* argv[]) {
 	init_population(population, pop_list, w, h);
 	int elite_size = pop_size / 4;
 	int start = 0;
+	int cnt = 0;
 
 	while(1) {
         SDL_PollEvent(&event);
@@ -106,34 +108,38 @@ int main(int argc, char* argv[]) {
             break;
         }
 
-//		if (event.type == SDL_KEYDOWN) {
-			run_population(chromoSurface, imgSurface, pop_list, start);
-			sort_population(pop_list);
-			Chromo *chromo = pop_list[0];
-			draw_chromo(screenSurface, chromo);
-			SDL_UpdateWindowSurface(window);
+		cnt++;
 
-			for (int i = 0; i < pop_size; i++) {
-				if (i >= elite_size) {
-					if (rnd(1000) < 950) {
-						Chromo *random_chromo1 = pop_list[rnd(pop_size)];
-						Chromo *random_chromo2 = pop_list[rnd(pop_size)];
-						if (rnd(1000) < 500) {
-							cross_1p(random_chromo1, random_chromo2, pop_list[i]);
-						} else {
-							cross_rnd(random_chromo1, random_chromo2, pop_list[i]);
-						}
+//		if (event.type == SDL_KEYDOWN) {
+//			print_population(cnt, pop_list);	
+//		}
+
+		run_population(chromoSurface, imgSurface, pop_list, start);
+		sort_population(pop_list);
+		Chromo *chromo = pop_list[0];
+		draw_chromo(screenSurface, chromo);
+		SDL_UpdateWindowSurface(window);
+
+		for (int i = 0; i < pop_size; i++) {
+			if (i >= elite_size) {
+				if (rnd(1000) < 950) {
+					Chromo *random_chromo1 = pop_list[rnd(pop_size)];
+					Chromo *random_chromo2 = pop_list[rnd(pop_size)];
+					if (rnd(1000) < 500) {
+						cross_1p(random_chromo1, random_chromo2, pop_list[i]);
 					} else {
-						if (rnd(1000) < 750) {
-							mutate_chromo(pop_list[i], w / 2, 20, w, h);
-						} else {
-							init_chromo(pop_list[i], w, h);
-						}
+						cross_rnd(random_chromo1, random_chromo2, pop_list[i]);
+					}
+				} else {
+					if (rnd(1000) < 750) {
+						mutate_chromo(pop_list[i], w / 2, 20, w, h);
+					} else {
+						init_chromo(pop_list[i], w, h);
 					}
 				}
 			}
-			start = elite_size;
-//		}
+		}
+		start = elite_size;
 	}
 
 	SDL_FreeSurface(screenSurface);
@@ -141,6 +147,8 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(chromoSurface);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+
+	print_population(cnt, pop_list);
 
 	return 0;
 }
