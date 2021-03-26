@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
 	printf("bits per pixel: %d, bytes per pixel: %d\n", format->BitsPerPixel, format->BytesPerPixel);
 	printf("rmask: %d, gmask: %d, bmask: %d\n", format->Rmask, format->Gmask, format->Bmask);
 	printf("w: %d, h: %d, pitch: %d\n", imgSurface->w, imgSurface->h, imgSurface->pitch);
-
+	printf("64-bit integer size: %d\n", sizeof(unsigned long long));
 	srand(time(0));
 
 	SDL_Event event;
@@ -99,6 +99,7 @@ int main(int argc, char* argv[]) {
 	init_population(population, pop_list, w, h);
 	int elite_size = pop_size / 4;
 	int start = 0;
+
 	while(1) {
         SDL_PollEvent(&event);
         if (event.type == SDL_QUIT) {
@@ -111,6 +112,7 @@ int main(int argc, char* argv[]) {
 			Chromo *chromo = pop_list[0];
 			draw_chromo(screenSurface, chromo);
 			SDL_UpdateWindowSurface(window);
+
 			for (int i = 0; i < pop_size; i++) {
 				if (i >= elite_size) {
 					if (rnd(1000) < 950) {

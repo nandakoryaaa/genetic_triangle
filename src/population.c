@@ -106,19 +106,19 @@ void mutate_chromo(Chromo *chromo, int shift, int color_shift, int w, int h) {
 unsigned long calc_rating(SDL_Surface *chromoSurf, SDL_Surface *imgSurf) {
 	unsigned char *chromo_pixels = (unsigned char *) chromoSurf->pixels;
 	unsigned char *img_pixels = (unsigned char *) imgSurf->pixels;
-	unsigned long diff = 0;
+	unsigned long long diff = 0;
 	unsigned char *chromo_offset;
 	unsigned char *img_offset;
 	for (int y = 0; y < chromoSurf->h; y++) {
 		chromo_offset = chromo_pixels;
 		img_offset = img_pixels;
 		for (int x = 0; x < chromoSurf->w; x++) {
-			int b_diff = *chromo_offset++ - *img_offset++;
-			int g_diff = *chromo_offset++ - *img_offset++;
-			int r_diff = *chromo_offset++ - *img_offset++;
+			int b_diff = *chromo_offset - *img_offset;
+			int g_diff = chromo_offset[1] - img_offset[1];
+			int r_diff = chromo_offset[2] - img_offset[2];
 			diff += r_diff * r_diff + g_diff * g_diff + b_diff * b_diff;
-			chromo_offset++;
-			img_offset++;
+			chromo_offset += 4;
+			img_offset += 4;
 		}
 		chromo_pixels += chromoSurf->pitch;
 		img_pixels += imgSurf->pitch;
