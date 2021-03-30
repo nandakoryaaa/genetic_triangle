@@ -56,37 +56,37 @@ void mutate_chromo(Chromo *chromo, int shift, int color_shift, int w, int h) {
 	for (int i = 0; i < chromo_size; i++) {
 		Triangle *t = &chromo->genes[i];
 		if (rnd(1000) < MT) {
-			t->x0 += rnds(w/2);
+			t->x0 += rnds(shift) * w / 100;
 			if (t->x0 >= w || t->x0 < 0) {
 				t->x0 = rnd(w);
 			}
 		}
 		if (rnd(1000) < MT) {
-			t->y0 += rnds(h/10);
+			t->y0 += rnds(shift) * h / 100;
 			if (t->y0 >= h || t->y0 < 0) {
 				t->y0 = rnd(h);
 			}
 		}
 		if (rnd(1000) < MT) {
-			t->x1 += rnds(w/2);
+			t->x1 += rnds(shift) * w / 100;
 			if (t->x1 >= w || t->x1 < 0) {
 				t->x1 = rnd(w);
 			}
 		}
 		if (rnd(1000) < MT) {
-			t->y1 += rnds(h/2);
+			t->y1 += rnds(shift) * h / 100;
 			if (t->y1 >= h || t->y1 < 0) {
 				t->y1 = rnd(h);
 			}
 		}
 		if (rnd(1000) < MT) {
-			t->x2 += rnds(w/2);
+			t->x2 += rnds(shift) * w / 100;
 			if (t->x2 >= w || t->x2< 0) {
 				t->x2 = rnd(w);
 			}
 		}
 		if (rnd(1000) < MT) {
-			t->y2 += rnds(h/2);
+			t->y2 += rnds(shift) * h / 100;
 			if (t->y2 >= h || t->y2 < 0) {
 				t->y2 = rnd(h);
 			}

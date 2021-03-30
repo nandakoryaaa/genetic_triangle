@@ -132,7 +132,7 @@ int main(int argc, char* argv[]) {
 					}
 				} else {
 					if (rnd(1000) < 750) {
-						mutate_chromo(pop_list[i], w / 2, 20, w, h);
+						mutate_chromo(pop_list[i], 50, 20, w, h);
 					} else {
 						init_chromo(pop_list[i], w, h);
 					}
